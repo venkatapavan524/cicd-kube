@@ -90,6 +90,7 @@ pipeline {
             }
         }
 
+
         stage("Remove Unused Images"){
             steps{
                 sh "docker rmi $registry"
@@ -97,6 +98,7 @@ pipeline {
         }
 
         stage("Kubernetes Deploy"){
+            agent {label "KOPS-DEMO"}
             steps{
                 sh "helm install demo-charts helm/democharts --set appimage=${registry} --namespace prod "
             }
